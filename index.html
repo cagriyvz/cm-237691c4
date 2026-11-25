@@ -1359,9 +1359,9 @@ function newNotebook(cid){openModal('Yeni defter',`<form style="max-width:560px;
   $('#nnF').onclick=e=>{const p=e.target.closest('[data-p]'),c=e.target.closest('[data-nc]'),v=e.target.closest('[data-cv]');if(p){paper=p.dataset.p;$$('[data-p]').forEach(x=>x.classList.toggle('on',x===p))}if(v){cover=v.dataset.cv;$$('[data-cv]').forEach(x=>x.classList.toggle('on',x===v))}if(c){color=c.dataset.nc;$$('[data-nc]').forEach(x=>x.classList.toggle('on',x===c));$$('[data-cv] .nbCover').forEach(x=>x.style.setProperty('--c',color))}};
   $('#nnF').onsubmit=e=>{e.preventDefault();const nb={id:uid(),course:$('#nnC').value,title:$('#nnT').value.trim()||'Defter',color,cover,paper,pages:[{id:uid()}],upd:Date.now()};S.notebooks.push(nb);save();openNotebook(nb.id)}}
 async function notebookFromPdf(fid){const f=S.files.find(x=>x.id===fid);if(!f)return;toast((f.book?'Kitap':'Sunum')+' deftere çevriliyor…'+(f.size>50*1048576?' Büyük dosya, biraz sürebilir.':''));
-  try{const pdf=await pdfOpen(f),n=Math.min(pdf.numPages,2000),v1=(await pdf.getPage(1)).getViewport({scale:1}),h1=Math.round(PW*v1.height/v1.width);
+  try{const pdf=await pdfOpen(f),n=Math.min(pdf.numPages,5000),v1=(await pdf.getPage(1)).getViewport({scale:1}),h1=Math.round(PW*v1.height/v1.width);
     const nb={id:uid(),course:f.course,title:f.name.replace(/\.pdf$/i,'')+' – notlar',color:course(f.course)?.color||COLORS[0],cover:'plain',paper:'blank',pages:[...Array(n)].map((_,i)=>({id:uid(),h:h1,bg:{file:f.id,page:i+1}})),upd:Date.now()};
-    S.notebooks.push(nb);save();openNotebook(nb.id);if(pdf.numPages>n)toast('İlk 2000 sayfa eklendi')}catch(e){toast('PDF açılamadı')}}
+    S.notebooks.push(nb);save();openNotebook(nb.id);if(pdf.numPages>n)toast('İlk 5000 sayfa eklendi')}catch(e){toast('PDF açılamadı')}}
 function renderNotebooks(){const el=$('#nbList');if(!el)return;
   $('#nbFilt').innerHTML=[['all','Tümü'],['fav','★ Favoriler'],...S.courses.filter(c=>S.notebooks.some(n=>n.course===c.id)).map(c=>[c.id,c.name])].map(([k,v])=>`<button class="chip${NBF.f===k?' on':''}" data-nbf="${esc(k)}">${esc(v)}</button>`).join('');
   const q=normT(NBF.q),hits={};let list=S.notebooks.filter(n=>NBF.f==='all'||(NBF.f==='fav'?n.fav:n.course===NBF.f));
