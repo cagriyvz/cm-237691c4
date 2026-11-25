@@ -212,34 +212,88 @@ nav#nav a.on svg{background:color-mix(in srgb,var(--blue) 16%,transparent);borde
 /* defter + araçlar */
 .tools{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr))}
 .tool{flex-direction:column;align-items:flex-start;gap:6px;min-height:84px;padding:12px 14px;border:0;border-radius:18px;font-weight:800;color:#fff;background:linear-gradient(145deg,var(--tc),color-mix(in srgb,var(--tc) 65%,#000));box-shadow:0 12px 22px -14px var(--tc);text-align:left}
-.tool span{font-size:24px;line-height:1}
-.nbs{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(min(46%,170px),1fr));margin-top:12px}
-.nbCard{position:relative;cursor:pointer}
-.nbCover{aspect-ratio:3/4;border-radius:6px 18px 18px 6px;background:linear-gradient(150deg,var(--c),color-mix(in srgb,var(--c) 58%,#000));box-shadow:inset 12px 0 0 rgba(0,0,0,.18),0 16px 26px -16px var(--c);display:flex;align-items:flex-end;padding:14px 14px 16px 24px;color:#fff;font-weight:800;font-size:18px;line-height:1.2;overflow-wrap:anywhere;transition:transform .18s}
-.nbCard:hover .nbCover{transform:translateY(-4px) rotate(-1deg)}
-.nbDel{position:absolute;top:6px;right:6px;color:#fff;background:rgba(0,0,0,.25);border-radius:50%;min-height:34px;min-width:34px;font-size:18px}
+.tool .ic{width:26px;height:26px;stroke-width:2}
+.nbs{display:grid;gap:26px 22px;grid-template-columns:repeat(auto-fill,minmax(min(44%,168px),1fr));margin-top:16px}
+.nbCard{position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.nbCover{position:relative;aspect-ratio:3/4;border-radius:4px 14px 14px 4px;background:linear-gradient(155deg,color-mix(in srgb,var(--c) 88%,#fff),var(--c) 45%,color-mix(in srgb,var(--c) 62%,#000));box-shadow:inset 15px 0 0 rgba(0,0,0,.2),inset 16px 0 0 rgba(255,255,255,.12),3px 1px 0 -1px #f7f4ec,6px 2px 0 -2px #e4dfd1,0 20px 32px -20px rgba(15,20,40,.7),0 4px 10px -6px rgba(15,20,40,.35);padding:24% 16% 0 24%;transition:transform .2s cubic-bezier(.2,.8,.3,1.2),box-shadow .2s;overflow:hidden}
+.nbCover::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;border-left:1.5px dashed rgba(255,255,255,.28)}
+.nbCover::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.16),transparent 38%);pointer-events:none}
+.nbBand{position:absolute;top:0;bottom:0;right:13%;width:8px;background:linear-gradient(90deg,rgba(0,0,0,.32),rgba(0,0,0,.22));box-shadow:1px 0 0 rgba(255,255,255,.12)}
+.nbLabel{position:relative;background:#fbf8ef;color:#1b2033;border-radius:5px;padding:10px 11px 9px;box-shadow:0 2px 0 rgba(0,0,0,.12),inset 0 0 0 1px rgba(0,0,0,.05);background-image:linear-gradient(transparent 0 calc(100% - 3px),var(--c) calc(100% - 3px))}
+.nbLabel b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:15px;line-height:1.22;font-weight:800;overflow-wrap:anywhere}
+.nbLabel small{display:block;margin-top:5px;font-size:10.5px;letter-spacing:.09em;color:#70768a;font-weight:800;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nbCard:hover .nbCover,.nbCard:focus-visible .nbCover{transform:translateY(-5px) rotate(-1.2deg)}
+.nbCard:active .nbCover{transform:scale(.97)}
+.nbMeta{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;color:var(--mut);min-height:34px}
+.nbMeta .nbMc{flex:1;display:flex;align-items:center;gap:7px}.nbMeta .nbMc>span{display:flex;flex-direction:column;line-height:1.2;overflow:hidden}.nbMeta .nbMc b{font-weight:700;color:var(--ink);font-size:13px;white-space:nowrap}.nbMeta .nbMc small{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nbMeta .nbIc{min-width:32px;min-height:32px}
+.nbMeta .nbMc i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.nbIc{min-height:34px;min-width:34px;padding:0;border:0;background:transparent;color:var(--mut);border-radius:10px;display:inline-flex;align-items:center;justify-content:center}
+.nbIc .ic{width:19px;height:19px}.nbIc:hover{background:var(--line);color:var(--ink)}
+.nbIc.fav{color:#e0a800}.nbIc.fav .ic{fill:#ffd23f;stroke:#c99300}
+.nbNew{aspect-ratio:3/4;width:100%;border-radius:4px 14px 14px 4px;border:2px dashed var(--bd);background:color-mix(in srgb,var(--card) 70%,transparent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--blue);font-weight:800;font-size:15px;min-height:0}
+.nbNew span{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px -10px var(--blue)}
+.nbNew span .ic{width:26px;height:26px;stroke-width:2.4}.nbNew:hover{border-color:var(--blue)}
 .nbMini{width:22px;height:28px;border-radius:3px 7px 7px 3px;flex:none;box-shadow:inset 4px 0 0 rgba(0,0,0,.2)}
 .papers{display:flex;gap:8px;flex-wrap:wrap}.paperOpt{flex-direction:column;gap:6px;padding:8px 10px;font-size:13px}.paperOpt.on{outline:3px solid var(--hi);outline-offset:1px}
 .pv{width:44px;height:58px;border:1px solid var(--bd);border-radius:4px;background:#fff;display:block}
+.paperOpt .nbCover{width:44px;height:58px;padding:0;aspect-ratio:auto;border:0;box-shadow:inset 6px 0 0 rgba(0,0,0,.2),0 6px 10px -6px rgba(0,0,0,.5)}.paperOpt .nbCover::before{left:3px}
 .pv-lined{background:repeating-linear-gradient(#fff 0 7px,#c9d3ea 7px 8px)}.pv-grid{background-color:#fff;background-image:linear-gradient(#c9d3ea 1px,transparent 1px),linear-gradient(90deg,#c9d3ea 1px,transparent 1px);background-size:8px 8px}.pv-dots{background:#fff radial-gradient(#9aa6c4 1px,transparent 1.6px);background-size:8px 8px}.pv-cornell{background:linear-gradient(90deg,transparent 13px,#f3a5b5 13px 14px,transparent 14px),repeating-linear-gradient(#fff 0 7px,#c9d3ea 7px 8px)}
-.nbMode .mbody{max-width:none;padding:0 0 120px}
-.nbBar{position:sticky;top:58px;z-index:3;display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:center;padding:6px;background:var(--card);border-bottom:1px solid var(--bd)}
-.nbGroup{display:flex;gap:3px;align-items:center;padding:0 5px;border-right:1px solid var(--line)}.nbGroup:last-child{border-right:0}
-.nbBar button{min-height:40px;min-width:40px;padding:4px 7px;border-radius:12px;font-size:17px}
-.nbBar button.on{background:var(--hi);color:var(--hiInk);border-color:var(--hi)}
-.nbBar .nbSw{min-width:30px;width:30px;min-height:30px;height:30px;padding:0;border-radius:50%;background:var(--sw);border:3px solid var(--card);box-shadow:0 0 0 1px var(--bd)}
-.nbBar .nbSw.on{background:var(--sw);border-color:var(--card);box-shadow:0 0 0 2px var(--ink)}
-.nbSz i{display:block;border-radius:50%}
-.nbNum{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 4px;font-size:14px}
-.nbWrap{padding:16px 6px;display:flex;justify-content:center;background:light-dark(#e6e9f1,#0b0e15);min-height:60vh}
-.nbPage{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-.nbPage{position:relative;box-shadow:0 18px 40px -20px rgba(0,0,0,.5);border-radius:4px;overflow:hidden;background:#fff;flex:none}
-.nbPage canvas{position:absolute;inset:0}#nbInk{cursor:crosshair}
-.nbMenu{position:sticky;top:110px;z-index:4;max-width:640px;margin:8px auto}
 
-.nbc-stripes{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.14) 0 10px,transparent 10px 22px),linear-gradient(150deg,var(--c),color-mix(in srgb,var(--c) 58%,#000))}
-.nbc-dots{background-image:radial-gradient(rgba(255,255,255,.22) 2px,transparent 2.5px),linear-gradient(150deg,var(--c),color-mix(in srgb,var(--c) 58%,#000));background-size:14px 14px,auto}
-.nbc-grid{background-image:linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(150deg,var(--c),color-mix(in srgb,var(--c) 58%,#000));background-size:14px 14px,14px 14px,auto}
+/* ===== defter düzenleyici ===== */
+.nbMode{background:light-dark(#e9e6df,#0c0f16)}
+.nbMode .mhead{display:none}
+.nbMode .mbody{max-width:none;padding:0 0 140px}
+.nbMode button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#nbBar{position:sticky;top:0;z-index:6;pointer-events:none}
+#nbBar>*{pointer-events:auto}
+.nbTop{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:8px 14px;padding-top:max(8px,env(safe-area-inset-top));background:color-mix(in srgb,var(--card) 86%,transparent);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-bottom:1px solid color-mix(in srgb,var(--bd) 70%,transparent)}
+.nbL,.nbR{display:flex;align-items:center;gap:4px}.nbR{justify-content:flex-end}
+.nbTitle{display:flex;flex-direction:column;line-height:1.15;padding-left:4px;overflow:hidden}
+.nbTitle b{font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nbTitle small{font-size:12px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nbI{min-height:42px;min-width:42px;padding:0 9px;border:0;border-radius:12px;background:transparent;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:14px;box-shadow:none}
+.nbI .ic{width:22px;height:22px;stroke-width:1.8}
+.nbI:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.nbI:disabled{opacity:.3;background:transparent}
+.nbTools{display:flex;gap:2px;padding:4px;border-radius:16px;background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.nbTools .nbI{min-width:46px;min-height:44px;color:var(--mut)}
+.nbTools .nbI.on{background:var(--card);color:var(--blue);box-shadow:0 1px 2px rgba(0,0,0,.08),0 4px 12px -4px rgba(20,30,80,.25)}
+.nbTools .nbI.on .ic{stroke-width:2}
+.nbDiv{width:1px;height:26px;background:var(--bd);margin:0 4px;flex:none}
+.nbAiB{background:linear-gradient(135deg,#ffe14d,#ffc93d)!important;color:#2a2300!important;padding:0 14px 0 11px}
+.nbAiB .ic{stroke-width:2}
+.nbSub{display:flex;justify-content:center;padding:10px 12px 0;pointer-events:none}
+.nbSubIn{pointer-events:auto;display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.06),0 12px 28px -12px rgba(20,30,80,.35);border:1px solid color-mix(in srgb,var(--bd) 60%,transparent);max-width:100%;overflow-x:auto;scrollbar-width:none}
+.nbSubIn:empty{display:none}
+.nbSubIn::-webkit-scrollbar{display:none}
+.nbSubIn .note{margin:0 6px;white-space:nowrap;font-size:13px}
+#nbCols,#nbSizes{display:flex;align-items:center;gap:4px}
+#nbCols:empty+.nbDiv{display:none}
+.nbSw{width:30px;height:30px;min-height:30px;min-width:30px;padding:0;border-radius:50%;background:var(--sw);border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);position:relative;flex:none;transition:transform .12s}
+.nbSw.on{transform:scale(1.08);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 0 0 3px var(--card),0 0 0 5px var(--sw)}
+.nbSz{width:36px;height:36px;min-height:36px;min-width:36px;padding:0;border-radius:50%;border:0;background:transparent;display:flex;align-items:center;justify-content:center;box-shadow:none}
+.nbSz i{display:block;border-radius:50%}
+.nbSz.on{background:color-mix(in srgb,var(--ink) 9%,transparent)}
+.nbSeg{display:flex;padding:3px;border-radius:999px;background:color-mix(in srgb,var(--ink) 7%,transparent);flex:none}
+.nbSeg button{min-height:30px;padding:0 12px;border:0;border-radius:999px;background:transparent;font-size:13px;font-weight:700;color:var(--mut);box-shadow:none;white-space:nowrap}
+.nbSeg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.nbFloat{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom));z-index:6;display:flex;align-items:center;gap:2px;padding:5px;border-radius:999px;background:color-mix(in srgb,var(--ink) 88%,transparent);color:var(--bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 14px 30px -12px rgba(0,0,0,.5)}
+.nbFloat .nbI{color:inherit;min-height:40px;min-width:40px;border-radius:999px}
+.nbFloat .nbI:hover{background:rgba(255,255,255,.12)}
+.nbFloat .nbDiv{background:rgba(255,255,255,.2);height:20px}
+.nbNum{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 10px!important;font-size:14px}
+.nbZ{min-width:52px;text-align:center;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;opacity:.85}
+@media(max-width:980px){.nbTitle small,.nbAiB span{display:none}.nbAiB{padding:0 10px!important}}
+@media(max-width:760px){.nbTop{grid-template-columns:minmax(0,1fr) auto;row-gap:6px}.nbTools{grid-column:1/-1;grid-row:2;justify-content:space-between;overflow-x:auto}.nbTools .nbI{min-width:42px}}
+.nbWrap{padding:22px 10px 40px;display:flex;justify-content:center;background:transparent;min-height:70vh;touch-action:pan-x pan-y}
+.nbPage{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.nbPage{position:relative;box-shadow:0 1px 2px rgba(0,0,0,.08),0 24px 50px -24px rgba(30,25,10,.45);border-radius:3px;overflow:hidden;background:#fff;flex:none;transform-origin:0 0;touch-action:pan-x pan-y}
+.nbPage canvas{position:absolute;inset:0}#nbInk{cursor:crosshair}
+.nbMenu{position:sticky;top:130px;z-index:5;max-width:640px;margin:10px auto;border-radius:20px;box-shadow:0 20px 40px -18px rgba(20,30,80,.45)}
+
+.nbc-stripes{background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.1) 0 9px,transparent 9px 20px),linear-gradient(155deg,color-mix(in srgb,var(--c) 88%,#fff),var(--c) 45%,color-mix(in srgb,var(--c) 62%,#000))}
+.nbc-dots{background-image:radial-gradient(rgba(255,255,255,.2) 1.6px,transparent 2.1px),linear-gradient(155deg,color-mix(in srgb,var(--c) 88%,#fff),var(--c) 45%,color-mix(in srgb,var(--c) 62%,#000));background-size:13px 13px,auto}
+.nbc-grid{background-image:linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(155deg,color-mix(in srgb,var(--c) 88%,#fff),var(--c) 45%,color-mix(in srgb,var(--c) 62%,#000));background-size:13px 13px,13px 13px,auto}
 .nbFav{position:absolute;top:6px;left:14px;color:#ffe14d;background:rgba(0,0,0,.25);border-radius:50%;min-height:34px;min-width:34px;font-size:18px}
 .nbWrap{display:block;overflow:auto}.nbPage{margin:0 auto}
 #nbObj{position:absolute;inset:0;pointer-events:none}#nbObj.editable{pointer-events:auto;cursor:text}
@@ -249,10 +303,10 @@ nav#nav a.on svg{background:color-mix(in srgb,var(--blue) 16%,transparent);borde
 .nbH{position:absolute;right:-12px;bottom:-12px;width:24px;height:24px;border-radius:50%;background:#2340c8;border:3px solid #fff;cursor:nwse-resize;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .nbSelBar{position:absolute;left:0;top:-50px;display:flex;gap:4px;background:var(--ink);padding:4px;border-radius:12px;white-space:nowrap;cursor:default;box-shadow:0 8px 20px -8px rgba(0,0,0,.5)}
 .nbSelBar button{min-height:34px;padding:2px 10px;font-size:13px;background:transparent;color:var(--bg);border:0}.nbSelBar .note{color:var(--bg);opacity:.7;align-self:center}
-.nbThumbs{padding:16px max(4vw,12px) 40px;background:light-dark(#e6e9f1,#0b0e15);min-height:70vh}
+.nbThumbs{padding:20px max(4vw,12px) 40px;min-height:70vh}
 .thGrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));max-width:1000px;margin:0 auto}
 .th{cursor:pointer}.thImg{background:#fff;border-radius:6px;box-shadow:0 10px 20px -12px rgba(0,0,0,.4);aspect-ratio:1/1.414;overflow:hidden;display:flex;align-items:flex-start}.thImg canvas{width:100%;height:auto;display:block}
-.th.on .thImg{outline:3px solid var(--hi)}.thBar{display:flex;align-items:center;gap:2px;margin-top:6px}.thBar b{flex:1}.thBar button{min-height:32px;min-width:32px;padding:0;font-size:14px;border-radius:8px}
+.th.on .thImg{outline:3px solid var(--hi)}.thBar{display:flex;align-items:center;gap:2px;margin-top:6px}.thBar b{flex:1}.thBar button{min-height:34px;min-width:34px;padding:0;border:0;background:transparent;box-shadow:none;border-radius:10px;color:var(--mut);display:inline-flex;align-items:center;justify-content:center}.thBar button .ic{width:18px;height:18px}.thBar button:hover{background:var(--line);color:var(--ink)}.thBar button:disabled{opacity:.3}
 .fcode{font-size:12px;font-weight:800;letter-spacing:.02em;opacity:.85;position:relative;margin-bottom:2px}
 .fin .need{text-align:right;min-width:86px;line-height:1.1}.fin .need b{display:block;font-size:24px;font-weight:800}.fin .need small{font-size:11px;color:var(--mut)}
 .need.ok b{color:#0f9d76}.need.mid b{color:#d08a00}.need.bad b{color:var(--red)}
@@ -260,7 +314,7 @@ nav#nav a.on svg{background:color-mix(in srgb,var(--blue) 16%,transparent);borde
 .heroIn{padding-top:14px;padding-bottom:16px;gap:10px}.hero{border-radius:0 0 22px 22px}.hero h1{font-size:27px;margin:2px 0 4px}.hhello{font-size:15px}.hmot{font-size:13px}.hero .sync{display:none}
 .lvl{padding:6px 12px 6px 6px;min-width:0;border-radius:16px}.lvlc{width:40px;height:40px}.lvlc b{width:31px;height:31px;font-size:15px}.lvlt{font-size:14px}
 .tools{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;padding-bottom:6px;margin:0 -14px;padding-left:14px;padding-right:14px;scrollbar-width:none}.tools::-webkit-scrollbar{display:none}
-.tool{flex:0 0 116px;min-height:70px;padding:10px 12px;font-size:14px;scroll-snap-align:start;border-radius:16px}.tool span{font-size:20px}
+.tool{flex:0 0 116px;min-height:70px;padding:10px 12px;font-size:14px;scroll-snap-align:start;border-radius:16px}.tool .ic{width:22px;height:22px}
 .panel{padding:16px;border-radius:20px}h2{font-size:19px}#hello{font-size:21px!important}
 .ring{width:min(68vw,250px)}.stat b{font-size:20px}.stat{padding:8px 10px}
 .mhead{padding-top:max(10px,env(safe-area-inset-top))}
@@ -274,7 +328,7 @@ nav#nav a.on svg{background:color-mix(in srgb,var(--blue) 16%,transparent);borde
 <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-7z"/></symbol>
 <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4"/></symbol>
 <symbol id="i-note" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6M9 17h3"/></symbol>
-</defs></svg>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M16.4 3.6a2.2 2.2 0 0 1 3.1 3.1L8.2 18 4 19.2 5.2 15z"/><path d="M14.3 5.7l3.1 3.1"/><path d="M4 19.2l1.2-4.2 3 3z" fill="var(--tip,currentColor)" stroke="var(--tip,currentColor)"/></symbol><symbol id="i-hl" viewBox="0 0 24 24"><path d="M9.2 12.8l6.4-9.3 4.2 3-6.6 9.4"/><path d="M9.2 12.8l4 3.1-1.9 2.6H7.8l-1.5-1.9z"/><path d="M3.5 21.3h9.5" stroke="var(--tip,currentColor)" stroke-width="3.4"/></symbol><symbol id="i-er" viewBox="0 0 24 24"><path d="M9 20.5h11"/><path d="M4.7 15.3l9.1-9.1a2 2 0 0 1 2.8 0l2.3 2.3a2 2 0 0 1 0 2.8l-8.2 8.2a3 3 0 0 1-2.1.9h-.4a3 3 0 0 1-2.1-.9l-1.4-1.4a2 2 0 0 1 0-2.8z"/><path d="M9.2 10.8l5 5"/></symbol><symbol id="i-lasso" viewBox="0 0 24 24"><ellipse cx="12" cy="9" rx="8" ry="5.3" stroke-dasharray="3.2 2.6"/><path d="M7.6 13.4c-1.7 1.4-1.3 3.7.9 4 1.7.2 2.1 1.7 1.1 3.3"/></symbol><symbol id="i-shape" viewBox="0 0 24 24"><rect x="3.5" y="10.5" width="9" height="9" rx="1.8"/><circle cx="15.5" cy="8.5" r="5"/></symbol><symbol id="i-text" viewBox="0 0 24 24"><path d="M5 7.5V5h14v2.5M12 5v14M9 19h6"/></symbol><symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.6"/><circle cx="9" cy="9.8" r="1.8"/><path d="M21 15.5l-4.8-4.8L6.5 20"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14.5L4 9.5l5-5"/><path d="M4 9.5h10.5a5.2 5.2 0 0 1 0 10.5H11"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 14.5l5-5-5-5"/><path d="M20 9.5H9.5a5.2 5.2 0 0 0 0 10.5H13"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="8" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="8" rx="1.6"/><rect x="3.5" y="14.5" width="7" height="6" rx="1.6"/><rect x="13.5" y="14.5" width="7" height="6" rx="1.6"/></symbol><symbol id="i-spark" viewBox="0 0 24 24"><path d="M10.5 3.5l1.9 5.1 5.1 1.9-5.1 1.9-1.9 5.1-1.9-5.1-5.1-1.9 5.1-1.9z"/><path d="M18.5 14.5v6M15.5 17.5h6"/></symbol><symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="18.5" cy="12" r="1.4" fill="currentColor"/></symbol><symbol id="i-cl" viewBox="0 0 24 24"><path d="M14.5 5l-7 7 7 7"/></symbol><symbol id="i-cr" viewBox="0 0 24 24"><path d="M9.5 5l7 7-7 7"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.8l2.5 5.2 5.6.7-4.1 3.9 1 5.6L12 16.5l-5 2.7 1-5.6-4.1-3.9 5.6-.7z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12.5A1.6 1.6 0 0 0 8.6 21h6.8a1.6 1.6 0 0 0 1.6-1.5L18 7M9 7V4.6A1.6 1.6 0 0 1 10.6 3h2.8A1.6 1.6 0 0 1 15 4.6V7"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol><symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol><symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l1.8-2.5h6.4L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></symbol><symbol id="i-hw" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.2"/><path d="M9 4V2.8h6V4M8.5 10.5l1.5 1.5 3-3M8.5 16h7"/></symbol><symbol id="i-mist" viewBox="0 0 24 24"><path d="M5 19.5V4.6A1.6 1.6 0 0 1 6.6 3H19v15H6.6A1.6 1.6 0 0 0 5 19.5zm0 0A1.6 1.6 0 0 0 6.6 21H19v-3"/><path d="M10 7.5l4 4M14 7.5l-4 4"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M6.5 3H18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6.5A1.5 1.5 0 0 1 5 19.5v-15A1.5 1.5 0 0 1 6.5 3z"/><path d="M9 3v18M12 8h4"/></symbol><symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol></defs></svg>
 <header class="hero"><div class="wrap heroIn">
   <div><div class="hhello" id="heroHello">Merhaba 👋</div><h1><span class="mark">Çalışma Masası</span></h1><div class="hmot" id="heroMot"></div><span class="sync" id="sync">Yükleniyor…</span></div>
   <div class="lvl" id="lvl"></div>
@@ -358,8 +412,8 @@ nav#nav a.on svg{background:color-mix(in srgb,var(--blue) 16%,transparent);borde
 
 <!-- DEFTER -->
 <section id="v-defter" hidden>
-  <div class="row" style="align-items:center"><h2 style="margin:0;font-size:24px">Defterlerim</h2><div class="fit"><button class="pri" data-tl="nb|">+ Yeni defter</button></div></div>
-  <p class="note">El yazısıyla not al, PDF slaytların üzerine yaz, hocaya kontrol ettir. Tablet kalemiyle basınca kalınlık değişir.</p>
+  <div class="row" style="align-items:center"><h2 style="margin:0;font-size:24px">Defterlerim</h2><div class="fit"><button class="pri" data-tl="nb|"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Yeni defter</button></div></div>
+  <p class="note">El yazısıyla not al, PDF slaytların üzerine yaz, hocaya kontrol ettir. iPad’de Pencil yazar, parmak kaydırır; iki parmakla dokunmak geri alır.</p>
   <div class="row" style="margin-top:10px"><div><input id="nbQ" placeholder="Defterlerde ve el yazısında ara" aria-label="Defterlerde ara"></div></div>
   <div class="chips" id="nbFilt" style="justify-content:flex-start;margin-top:10px"></div>
   <div class="nbs" id="nbList"></div>
@@ -457,7 +511,10 @@ const LOCAL=!(window.claude&&window.claude.use);
 const CAP={mcp:null,db:null,sample:null,tts:null,dict:null,assets:null,img:false};
 let docRef=null,pushT=null,userCol=null;
 const sync=t=>$('#sync').textContent=t;sync('Bu cihazda kaydediliyor');
-function save(){S.t=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+function save(){S.t=Date.now();let ok=true;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){ok=false}
+  /* yedek kopya: IndexedDB (localStorage dolarsa ya da silinirse buradan geri gelir) */
+  clearTimeout(save.t);save.t=setTimeout(()=>{try{if(LOCAL)IDB.put('state',JSON.parse(JSON.stringify(S))).catch(()=>{})}catch(e){}},200);
+  if(!ok&&!save.warned){save.warned=1;setTimeout(()=>toast('Tarayıcı hafızası doldu, kayıtlar yedek alana yazılıyor. Ayarlar › Yedeği kopyala ile yedek al.'),0)}
   if(docRef){clearTimeout(pushT);pushT=setTimeout(async()=>{try{await docRef.set({json:JSON.stringify(S),t:S.t});sync('Hesabına kaydedildi ✓')}catch(e){sync('Bu cihazda kaydedildi')}},1200)}}
 
 /* ---------- HELPERS ---------- */
@@ -511,7 +568,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-mic]');if(
 /* ---------- CAPABILITIES ---------- */
 (async()=>{try{
   await Promise.resolve();
-  if(LOCAL){CAP.assets=localAssets;CAP.img=!!lsGet('cm-key');sync('Bu cihazda kaydediliyor');await idbPreload();renderAll();return}
+  if(LOCAL){CAP.assets=localAssets;CAP.img=!!lsGet('cm-key');sync('Bu cihazda kaydediliyor');
+    try{const r=await IDB.get('state');if(r&&r.courses&&(r.t||0)>(S.t||0)){S=r;norm();thkMigrate();thkMigrate2();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}else if(!r)save()}catch(e){}
+    await idbPreload();renderAll();route();return}
   const [db,user,sample,tts,dict,assets,mcp]=await Promise.all(['db','user','sample','tts','dictation','assets','mcp'].map(n=>claude.use(n).catch(()=>null)));
   Object.assign(CAP,{db,sample,tts,dict,assets,mcp});$('#gBox').hidden=!mcp;$('#mailBox').hidden=!mcp;$('#eGWrap').hidden=!mcp;if(mcp)$('#eG').checked=S.settings.gDefault!==false;if(mcp&&S.settings.gAuto)gPull(true);
   if(sample&&sample.limits){try{CAP.img=!!(await sample.limits()).images}catch(e){}}
@@ -1272,7 +1331,7 @@ const loadImg=url=>IMGC[url]=IMGC[url]||new Promise((res,rej)=>{const i=new Imag
 function newNotebook(cid){openModal('Yeni defter',`<form style="max-width:560px;margin:0 auto" class="panel" id="nnF"><label for="nnT">Defterin adı</label><input id="nnT" required placeholder="ör. Fizik ders notları"><div class="sp"></div>
   <label for="nnC">Ders</label><select id="nnC">${courseOpts(cid||'')}</select><div class="sp"></div>
   <label>Sayfa türü</label><div class="papers">${Object.entries(PAPERS).map(([k,v],i)=>`<button type="button" class="paperOpt${i===1?' on':''}" data-p="${k}"><span class="pv pv-${k}"></span>${v}</button>`).join('')}</div><div class="sp"></div>
-  <label>Kapak</label><div class="papers">${Object.entries(COVERS).map(([k,v],i)=>`<button type="button" class="paperOpt${i===0?' on':''}" data-cv="${k}"><span class="pv nbCover nbc-${k}" style="--c:#2340c8;padding:0"></span>${v}</button>`).join('')}</div><div class="sp"></div>
+  <label>Kapak</label><div class="papers">${Object.entries(COVERS).map(([k,v],i)=>`<button type="button" class="paperOpt${i===0?' on':''}" data-cv="${k}"><span class="pv nbCover nbc-${k}" style="--c:#2340c8"><i class="nbBand"></i></span>${v}</button>`).join('')}</div><div class="sp"></div>
   <div class="swatches">${COLORS.map((c,i)=>`<button type="button" class="sw${i===0?' on':''}" style="background:${c}" data-nc="${c}" aria-label="Kapak rengi"></button>`).join('')}</div><div class="sp"></div>
   <button class="pri">Defteri oluştur</button></form>`);
   let paper='lined',color=COLORS[0],cover='plain';
@@ -1287,8 +1346,10 @@ function renderNotebooks(){const el=$('#nbList');if(!el)return;
   const q=normT(NBF.q),hits={};let list=S.notebooks.filter(n=>NBF.f==='all'||(NBF.f==='fav'?n.fav:n.course===NBF.f));
   if(q)list=list.filter(n=>{const pi=n.pages.findIndex(p=>p.ocr&&normT(p.ocr).includes(q));if(pi>=0)hits[n.id]=pi;return normT(n.title).includes(q)||pi>=0});
   list.sort((a,b)=>(b.fav?1:0)-(a.fav?1:0)||b.upd-a.upd);
-  el.innerHTML=list.length?list.map(nb=>`<div class="nbCard" data-nbo="${esc(nb.id)}"${hits[nb.id]!==undefined?` data-nbp="${hits[nb.id]}"`:''} style="--c:${esc(nb.color)}"><div class="nbCover nbc-${esc(nb.cover||'plain')}"><span>${esc(nb.title)}</span></div><div class="meta" style="margin-top:8px">${cDot(nb.course)}<span>${nb.pages.length} sayfa</span>${hits[nb.id]!==undefined?`<span class="badge exam">s. ${hits[nb.id]+1}’de bulundu</span>`:''}</div><button class="x nbFav" data-nbfav="${esc(nb.id)}" aria-label="Favori">${nb.fav?'★':'☆'}</button><button class="x nbDel" data-nbd="${esc(nb.id)}" aria-label="Defteri sil">×</button></div>`).join('')
-    :`<div class="empty">${q?'Bulunamadı. El yazısında arama için o sayfada ✨ Hoca › “Yazıya çevir” kullanılmış olmalı.':'Henüz defterin yok. “+ Yeni defter” ile başla ya da bir PDF sunumu açıp “PDF’e not al”a bas.'}</div>`}
+  const ago=t=>{const d=Math.floor((Date.now()-(t||0))/864e5);return d<1?'bugün':d<2?'dün':d<7?d+' gün önce':d<30?Math.floor(d/7)+' hafta önce':Math.floor(d/30)+' ay önce'};
+  const card=nb=>{const c=course(nb.course);return`<div class="nbCard" tabindex="0" role="button" aria-label="${esc(nb.title)} defterini aç" data-nbo="${esc(nb.id)}"${hits[nb.id]!==undefined?` data-nbp="${hits[nb.id]}"`:''} style="--c:${esc(nb.color)}"><div class="nbCover nbc-${esc(nb.cover||'plain')}"><i class="nbBand"></i><div class="nbLabel"><b>${esc(nb.title)}</b><small>${esc(c?(c.code||c.name):'Genel')}</small></div></div>
+    <div class="nbMeta"><span class="nbMc"><i></i><span><b>${nb.pages.length} sayfa</b><small>${ago(nb.upd)}</small></span></span>${hits[nb.id]!==undefined?`<span class="badge exam">s. ${hits[nb.id]+1}</span>`:''}<button class="nbIc${nb.fav?' fav':''}" data-nbfav="${esc(nb.id)}" aria-label="${nb.fav?'Favorilerden çıkar':'Favorilere ekle'}"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></button><button class="nbIc" data-nbd="${esc(nb.id)}" aria-label="Defteri sil"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg></button></div></div>`};
+  el.innerHTML=(q?'':`<button class="nbNew" data-tl="nb|"><span><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></span>Yeni defter</button>`)+(list.length?list.map(card).join(''):q?`<div class="empty">Bulunamadı. El yazısında arama için o sayfada Hoca › “Yazıya çevir” kullanılmış olmalı.</div>`:'')}
 const nbRows=cid=>S.notebooks.filter(n=>n.course===cid).map(nb=>`<li class="item click" data-nbo="${esc(nb.id)}"><span class="nbMini" style="background:${esc(nb.color)}"></span><div class="main"><div class="ttl">${nb.fav?'★ ':''}${esc(nb.title)}</div><div class="meta">${nb.pages.length} sayfa · ${PAPERS[nb.paper]||'PDF'}</div></div></li>`).join('');
 
 /* sayfa çizimi (ekran, küçük resim, dışa aktarma için ortak) */
@@ -1313,14 +1374,13 @@ async function renderPage(nb,pg,W){const d=await loadPage(pg.id);let bg=null;if(
 
 /* düzenleyici */
 async function openNotebook(id,page){const nb=S.notebooks.find(x=>x.id===id);if(!nb)return;
-  NB={nb,idx:Math.max(0,Math.min(page??nb.last??0,nb.pages.length-1)),tool:'pen',pc:PENC[0],hc:HIC[0],ps:3,hs:22,uni:!!S.settings.uniPen,hlOnly:false,penOnly:!!S.settings.penOnly,undo:[],redo:[],cur:null,cache:null,zoom:1,sel:null,lasso:null};
-  openModal(nb.title,`<div class="nbBar" id="nbBar">
-    <div class="nbGroup"><button data-tool="pen" title="Kalem" aria-label="Kalem">✏️</button><button data-tool="hl" title="Fosforlu" aria-label="Fosforlu kalem">🖍️</button><button data-tool="er" title="Silgi" aria-label="Silgi">🧽</button><button data-tool="lasso" title="Kement: seç, taşı, büyüt" aria-label="Kement">➰</button><button data-tool="shape" title="Şekil: çiz, düzeltsin" aria-label="Şekil">△</button><button data-tool="text" title="Metin" aria-label="Metin" style="font-weight:800">T</button><button id="nbImgBtn" title="Görsel ekle" aria-label="Görsel ekle">🖼️</button></div>
-    <div class="nbGroup" id="nbCols"></div><div class="nbGroup" id="nbSizes"></div>
-    <div class="nbGroup"><button id="nbUndo" aria-label="Geri al">↶</button><button id="nbRedo" aria-label="Yinele">↷</button></div>
-    <div class="nbGroup"><button id="nbPrev" aria-label="Önceki sayfa">‹</button><button id="nbNum" class="nbNum" title="Sayfalar"></button><button id="nbNext" aria-label="Sonraki sayfa">›</button><button id="nbAdd" aria-label="Sayfa ekle">＋</button></div>
-    <div class="nbGroup"><button id="nbZo" aria-label="Uzaklaştır">−</button><span class="nbNum" id="nbZ">100%</span><button id="nbZi" aria-label="Yakınlaştır">＋</button></div>
-    <div class="nbGroup"><button id="nbAiBtn" class="hl">✨ Hoca</button><button id="nbMore" aria-label="Diğer">⋯</button></div></div>
+  NB={nb,idx:Math.max(0,Math.min(page??nb.last??0,nb.pages.length-1)),tool:'pen',pc:PENC[0],hc:HIC[0],ps:3,hs:22,uni:!!S.settings.uniPen,hlOnly:false,penOnly:!S.settings.fingerDraw,undo:[],redo:[],cur:null,cache:null,zoom:1,sel:null,lasso:null};
+  const cc0=course(nb.course);openModal(nb.title,`<div id="nbBar">
+    <div class="nbTop"><div class="nbL"><button class="nbI" id="nbBack" aria-label="Defterlere dön"><svg class="ic" aria-hidden="true"><use href="#i-cl"/></svg></button><div class="nbTitle"><b id="nbTitle">${esc(nb.title)}</b><small>${esc(cc0?(cc0.code?cc0.code+' · '+cc0.name:cc0.name):'Genel')}</small></div></div>
+      <div class="nbTools" role="toolbar" aria-label="Araçlar"><button class="nbI" data-tool="pen" title="Kalem" aria-label="Kalem"><svg class="ic" aria-hidden="true"><use href="#i-pen"/></svg></button><button class="nbI" data-tool="hl" title="Fosforlu kalem" aria-label="Fosforlu kalem"><svg class="ic" aria-hidden="true"><use href="#i-hl"/></svg></button><button class="nbI" data-tool="er" title="Silgi" aria-label="Silgi"><svg class="ic" aria-hidden="true"><use href="#i-er"/></svg></button><button class="nbI" data-tool="lasso" title="Kement: seç, taşı, büyüt" aria-label="Kement: seç, taşı, büyüt"><svg class="ic" aria-hidden="true"><use href="#i-lasso"/></svg></button><button class="nbI" data-tool="shape" title="Şekil: çiz, düzeltsin" aria-label="Şekil: çiz, düzeltsin"><svg class="ic" aria-hidden="true"><use href="#i-shape"/></svg></button><button class="nbI" data-tool="text" title="Metin" aria-label="Metin"><svg class="ic" aria-hidden="true"><use href="#i-text"/></svg></button><span class="nbDiv"></span><button class="nbI" id="nbImgBtn" title="Görsel ekle" aria-label="Görsel ekle"><svg class="ic" aria-hidden="true"><use href="#i-img"/></svg></button></div>
+      <div class="nbR"><button class="nbI" id="nbUndo" title="Geri al (iki parmakla dokun)" aria-label="Geri al"><svg class="ic" aria-hidden="true"><use href="#i-undo"/></svg></button><button class="nbI" id="nbRedo" title="Yinele" aria-label="Yinele"><svg class="ic" aria-hidden="true"><use href="#i-redo"/></svg></button><span class="nbDiv"></span><button class="nbI nbAiB" id="nbAiBtn"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Hoca</span></button><button class="nbI" id="nbMore" aria-label="Diğer"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></div></div>
+    <div class="nbSub"><div class="nbSubIn"><div id="nbCols"></div><span class="nbDiv"></span><div id="nbSizes"></div></div></div>
+    <div class="nbFloat"><button class="nbI" id="nbPrev" aria-label="Önceki sayfa"><svg class="ic" aria-hidden="true"><use href="#i-cl"/></svg></button><button class="nbI nbNum" id="nbNum" title="Tüm sayfalar"></button><button class="nbI" id="nbNext" aria-label="Sonraki sayfa"><svg class="ic" aria-hidden="true"><use href="#i-cr"/></svg></button><button class="nbI" id="nbAdd" title="Sayfa ekle" aria-label="Sayfa ekle"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button><span class="nbDiv"></span><button class="nbI" id="nbZo" aria-label="Uzaklaştır"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="nbZ" id="nbZ">100%</span><button class="nbI" id="nbZi" aria-label="Yakınlaştır"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button></div></div>
     <div id="nbMenu" class="panel nbMenu" hidden></div><input type="file" accept="image/*" id="nbImgIn" hidden>
     <div class="nbWrap" id="nbWrap"><div class="nbPage" id="nbPage"><canvas id="nbBg"></canvas><div id="nbObj"></div><canvas id="nbInk"></canvas><div id="nbSel" hidden><div class="nbSelBar" id="nbSelBar"></div><span class="nbH" id="nbH"></span></div></div></div>
     <div class="nbThumbs" id="nbThumbs" hidden></div>
@@ -1330,26 +1390,30 @@ async function openNotebook(id,page){const nb=S.notebooks.find(x=>x.id===id);if(
     if(b.dataset.tool){nbSetTool(b.dataset.tool)}
     else if(b.dataset.col){const c=b.dataset.col;if(NB.sel){nbSnap();NB.sel.s.forEach(s=>{if(s.t!=='h')s.c=c});NB.sel.o.forEach(o=>{if(o.type==='text')o.c=c});nbCommit()}if(NB.tool==='hl')NB.hc=c;else NB.pc=c;nbBarDraw()}
     else if(b.dataset.sz){if(NB.tool==='hl')NB.hs=+b.dataset.sz;else NB.ps=+b.dataset.sz;nbBarDraw()}
-    else if(b.dataset.opt==='uni'){NB.uni=S.settings.uniPen=!NB.uni;save();nbBarDraw()}
-    else if(b.dataset.opt==='hlo'){NB.hlOnly=!NB.hlOnly;nbBarDraw()}
+    else if(b.dataset.opt==='uni'||b.dataset.opt==='fnt'){NB.uni=S.settings.uniPen=b.dataset.opt==='uni';save();nbBarDraw()}
+    else if(b.dataset.opt==='hlo'||b.dataset.opt==='hla'){NB.hlOnly=b.dataset.opt==='hlo';nbBarDraw()}
     else if(b.dataset.opt==='paste')nbPaste();
     else if(b.id==='nbUndo')nbUndo();else if(b.id==='nbRedo')nbRedo();
     else if(b.id==='nbPrev')nbGo(NB.idx-1);else if(b.id==='nbNext')nbGo(NB.idx+1);else if(b.id==='nbNum')nbThumbs();
     else if(b.id==='nbAdd'){const cp=nbPg();NB.nb.pages.splice(NB.idx+1,0,{id:uid(),paper:cp.bg?undefined:cp.paper});NB.nb.upd=Date.now();save();nbGo(NB.idx+1)}
-    else if(b.id==='nbZi'||b.id==='nbZo'){const Z=[.75,1,1.25,1.5,2,2.5,3],i=Z.indexOf(NB.zoom);NB.zoom=Z[Math.max(0,Math.min(Z.length-1,i+(b.id==='nbZi'?1:-1)))];nbLayout()}
-    else if(b.id==='nbImgBtn')$('#nbImgIn').click();else if(b.id==='nbAiBtn')nbMenu('ai');else if(b.id==='nbMore')nbMenu('more')};
+    else if(b.id==='nbZi'||b.id==='nbZo'){const Z=[.6,.75,1,1.25,1.5,2,2.5,3],up=b.id==='nbZi';NB.zoom=up?(Z.find(z=>z>NB.zoom+.01)||3):([...Z].reverse().find(z=>z<NB.zoom-.01)||.6);nbLayout()}
+    else if(b.id==='nbBack')closeModal();else if(b.id==='nbImgBtn')$('#nbImgIn').click();else if(b.id==='nbAiBtn')nbMenu('ai');else if(b.id==='nbMore')nbMenu('more')};
   $('#nbImgIn').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)nbAddImage(f)};
   $('#nbWrap').addEventListener('wheel',e=>{if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();NB.zoom=Math.max(.75,Math.min(3,Math.round((NB.zoom*(e.deltaY<0?1.1:.9))*100)/100));nbLayout()},{passive:false});
-  nbBindInk($('#nbInk'));nbBindObj();nbBindSel();
+  nbBindInk($('#nbInk'));nbBindGestures($('#nbWrap'));nbBindObj();nbBindSel();
   NB.ro=new ResizeObserver(()=>nbLayout());NB.ro.observe($('#nbWrap'));nbBarDraw();await nbGo(NB.idx)}
 function nbSetTool(t){if(NB.editing)NB.editing.blur();NB.tool=t;if(t!=='lasso')nbClearSel();nbBarDraw()}
 function nbBarDraw(){if(!NB||!$('#nbBar'))return;const t=NB.tool;$$('#nbBar [data-tool]').forEach(b=>b.classList.toggle('on',b.dataset.tool===t));
-  const cols=t==='hl'?HIC:PENC,cc=t==='hl'?NB.hc:NB.pc;$('#nbCols').innerHTML=t==='er'?'':cols.map(c=>`<button class="nbSw${c===cc?' on':''}" data-col="${c}" style="--sw:${c}" aria-label="Renk"></button>`).join('');
-  const sz=t==='hl'?[14,22,34]:[2,3,6],cs=t==='hl'?NB.hs:NB.ps;
-  $('#nbSizes').innerHTML=t==='er'?`<button data-opt="hlo" class="${NB.hlOnly?'on':''}" style="font-size:13px">Sadece fosforlu</button>`:t==='lasso'?(NBCLIP?'<button data-opt="paste" style="font-size:13px">📋 Yapıştır</button>':'<span class="note">Seçmek için etrafını çiz</span>'):t==='text'?'<span class="note">Yazmak için sayfaya dokun</span>':
-    sz.map(s=>`<button class="nbSz${s===cs?' on':''}" data-sz="${s}" aria-label="Kalınlık"><i style="width:${Math.min(22,s*(t==='hl'?.6:2.4))}px;height:${Math.min(22,s*(t==='hl'?.6:2.4))}px;background:${t==='hl'?NB.hc:NB.pc}"></i></button>`).join('')+(t==='pen'?`<button data-opt="uni" style="font-size:12px" title="Kalem türü">${NB.uni?'Tükenmez':'Dolma'}</button>`:'');
+  const pb=$('#nbBar [data-tool="pen"]'),hb=$('#nbBar [data-tool="hl"]');if(pb)pb.style.setProperty('--tip',NB.pc);if(hb)hb.style.setProperty('--tip',NB.hc);
+  const hl=t==='hl',cols=hl?HIC:PENC,cc=hl?NB.hc:NB.pc;
+  $('#nbCols').innerHTML=['er','lasso'].includes(t)?'':cols.map(c=>`<button class="nbSw${c===cc?' on':''}" data-col="${c}" style="--sw:${c}" aria-label="Renk ${c}"></button>`).join('');
+  const sz=hl?[14,22,34]:[2,3,5,8],cs=hl?NB.hs:NB.ps,dot=v=>Math.max(4,Math.min(20,hl?v*.55:v*2.3));
+  $('#nbSizes').innerHTML=t==='er'?`<div class="nbSeg"><button data-opt="hla" class="${NB.hlOnly?'':'on'}">Her şey</button><button data-opt="hlo" class="${NB.hlOnly?'on':''}">Sadece fosforlu</button></div>`
+    :t==='lasso'?(NBCLIP?`<button class="nbI" data-opt="paste"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Yapıştır</button>`:'<span class="note">Seçmek için etrafını çiz</span>')
+    :t==='text'?'<span class="note">Yazmak için sayfaya dokun</span>'
+    :sz.map(v=>`<button class="nbSz${v===cs?' on':''}" data-sz="${v}" aria-label="Kalınlık ${v}"><i style="width:${dot(v)}px;height:${dot(v)}px;background:${cc}${hl?';opacity:.75;border-radius:3px':''}"></i></button>`).join('')+(t==='pen'?`<span class="nbDiv"></span><div class="nbSeg"><button data-opt="fnt" class="${NB.uni?'':'on'}" title="Basınca kalınlaşır">Dolma</button><button data-opt="uni" class="${NB.uni?'on':''}" title="Hep aynı kalınlık">Tükenmez</button></div>`:'');
   $('#nbUndo').disabled=!NB.undo.length;$('#nbRedo').disabled=!NB.redo.length;$('#nbZ').textContent=Math.round(NB.zoom*100)+'%';
-  const ink=$('#nbInk');ink.style.touchAction=NB.penOnly?'pan-x pan-y pinch-zoom':'none';ink.style.pointerEvents=t==='text'?'none':'auto';ink.style.cursor=t==='lasso'?'cell':t==='er'?'pointer':'crosshair';
+  const ink=$('#nbInk');ink.style.touchAction=NB.penOnly?'pan-x pan-y':'none';ink.style.pointerEvents=t==='text'?'none':'auto';ink.style.cursor=t==='lasso'?'cell':t==='er'?'pointer':'crosshair';
   $('#nbObj').classList.toggle('editable',t==='text')}
 const nbPg=()=>NB.nb.pages[NB.idx];
 async function nbGo(i){const nb=NB.nb;if(i<0||i>=nb.pages.length)return;if(NB.editing)NB.editing.blur();NB.idx=i;nb.last=i;NB.undo=[];NB.redo=[];NB.bgImg=null;nbClearSel();
@@ -1357,7 +1421,7 @@ async function nbGo(i){const nb=NB.nb;if(i<0||i>=nb.pages.length)return;if(NB.ed
   const pg=nbPg();NB.data=await loadPage(pg.id);if(!NB||nbPg()!==pg)return;
   if(pg.bg){try{const cv=await pdfBg(pg,1600);if(NB&&nbPg()===pg)NB.bgImg=cv}catch(e){pg.h=PH;toast('Sayfa arka planı yüklenemedi')}}
   nbLayout();nbBarDraw()}
-function nbLayout(){if(!NB||!$('#nbWrap')||$('#nbWrap').hidden)return;const pg=nbPg(),H=pg.h||PH,wrap=$('#nbWrap'),w=Math.round(Math.min(wrap.clientWidth-12,900)*NB.zoom),h=w*H/PW,dpr=Math.min(NB.zoom>1.5?2:2.5,window.devicePixelRatio||1);
+function nbLayout(){if(!NB||!$('#nbWrap')||$('#nbWrap').hidden)return;const pg=nbPg(),H=pg.h||PH,wrap=$('#nbWrap'),w=Math.round(Math.min(wrap.clientWidth-(wrap.clientWidth<700?20:48),900)*NB.zoom),h=w*H/PW,dpr=Math.min(NB.zoom>1.5?2:2.5,window.devicePixelRatio||1);
   NB.k=w/PW;NB.dpr=dpr;const pe=$('#nbPage');pe.style.width=w+'px';pe.style.height=h+'px';
   for(const id of['nbBg','nbInk']){const c=$('#'+id);c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);c.style.width=w+'px';c.style.height=h+'px'}
   const c=$('#nbBg'),x=c.getContext('2d');x.setTransform(1,0,0,1,0,0);x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);if(NB.bgImg)x.drawImage(NB.bgImg,0,0,c.width,c.height);else{x.setTransform(NB.k*dpr,0,0,NB.k*dpr,0,0);drawPaper(x,pg.paper||NB.nb.paper,H)}
@@ -1389,11 +1453,14 @@ function nbShape(s){const P=[];for(let i=0;i<s.p.length;i+=3)P.push([s.p[i],s.p[
   if(vs.length>=3){out(vs.concat([vs[0]]));return}out([a,z])}
 
 /* çizim girişi */
-function nbBindInk(ink){let id=null;
-  const isPen=e=>[...e.changedTouches].some(t=>t.touchType==='stylus');ink.addEventListener('touchstart',e=>{if(NB.tool!=='text'&&(isPen(e)||!NB.penOnly))e.preventDefault()},{passive:false});ink.addEventListener('touchmove',e=>{if(isPen(e)||(!NB.penOnly&&e.touches.length<2))e.preventDefault()},{passive:false});
-
-  ink.onpointerdown=e=>{if(e.pointerType==='pen'&&!S.settings.sawPen){S.settings.sawPen=true;S.settings.penOnly=true;NB.penOnly=true;save();nbBarDraw();toast('Kalem algılandı ✏️ Parmakla kaydırabilir, kalemle yazabilirsin (⋯ menüsünden değiştirebilirsin)')}
-    if(NB.penOnly&&e.pointerType==='touch')return;if(e.button>0)return;e.preventDefault();id=e.pointerId;try{ink.setPointerCapture(id)}catch(er){}$('#nbMenu').hidden=true;
+function nbBindInk(ink){let id=null,penDown=false;
+  const isPen=e=>[...e.changedTouches].some(t=>t.touchType==='stylus');
+  /* Pencil yazarken Safari sayfayı kaydırmasın; avuç içi hiçbir şey yapmasın */
+  ink.addEventListener('touchstart',e=>{if(NB.tool==='text')return;if(isPen(e)||penDown||!NB.penOnly)e.preventDefault()},{passive:false});
+  ink.addEventListener('touchmove',e=>{if(isPen(e)||penDown||(!NB.penOnly&&e.touches.length<2))e.preventDefault()},{passive:false});
+  ink.onpointerdown=e=>{if(e.pointerType==='touch'&&NB.penOnly){if(!S.settings.fHint){S.settings.fHint=true;save();toast('Parmakla kaydırır ve yakınlaştırırsın, kalemle yazarsın. Kalemin yoksa ⋯ › “Parmakla da yaz”')}return}
+    if(e.pointerType==='touch'&&penDown)return;if(e.pointerType==='pen')penDown=true;
+if(e.button>0)return;e.preventDefault();id=e.pointerId;try{ink.setPointerCapture(id)}catch(er){}$('#nbMenu').hidden=true;
     const pt=nbPt(e,ink);
     if(NB.tool==='er'){NB.pre=JSON.stringify({s:NB.data.s,o:NB.data.o});NB.erasedAny=false;nbErase(pt);return}
     if(NB.tool==='lasso'){nbClearSel();NB.lasso=[pt[0],pt[1]];return}
@@ -1401,11 +1468,20 @@ function nbBindInk(ink){let id=null;
   ink.onpointermove=e=>{if(e.pointerId!==id)return;e.preventDefault();const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
     for(const ev of evs){const pt=nbPt(ev,ink);if(NB.tool==='er'){nbErase(pt);continue}if(NB.lasso){NB.lasso.push(pt[0],pt[1]);continue}
       const p=NB.cur&&NB.cur.p;if(!p)continue;if(Math.abs(p[p.length-3]-pt[0])+Math.abs(p[p.length-2]-pt[1])<2)continue;p.push(...pt)}nbPaint()};
-  const end=e=>{if(e.pointerId!==id)return;id=null;
+  const end=e=>{if(e.pointerType==='pen')penDown=false;if(e.pointerId!==id)return;id=null;
     if(NB.tool==='er'){if(NB.erasedAny){NB.undo.push(NB.pre);if(NB.undo.length>30)NB.undo.shift();NB.redo=[];savePage(nbPg().id);nbBarDraw()}return}
     if(NB.lasso){nbLassoSelect();NB.lasso=null;nbPaint();return}
     if(NB.cur){const s=NB.cur;NB.cur=null;if(NB.tool==='shape')nbShape(s);nbSnap();NB.data.s.push(s);nbCommit()}};
   ink.onpointerup=end;ink.onpointercancel=end;ink.onlostpointercapture=end}
+function nbBindGestures(w){let g=null;const fingers=e=>[...e.touches].filter(t=>t.touchType!=='stylus');
+  const dist=f=>Math.hypot(f[0].clientX-f[1].clientX,f[0].clientY-f[1].clientY);
+  w.addEventListener('touchstart',e=>{const f=fingers(e);if(f.length===2&&!g){const r=$('#nbPage').getBoundingClientRect();g={d0:dist(f),z0:NB.zoom,t:Date.now(),mv:0,s:1,mx:(f[0].clientX+f[1].clientX)/2,my:(f[0].clientY+f[1].clientY)/2,r};$('#nbPage').style.transformOrigin=`${g.mx-r.left}px ${g.my-r.top}px`}else if(f.length>2)g=null},{passive:true});
+  w.addEventListener('touchmove',e=>{if(!g)return;const f=fingers(e);if(f.length!==2)return;e.preventDefault();const d=dist(f);g.mv=Math.max(g.mv,Math.abs(d-g.d0));g.s=Math.max(.6,Math.min(3,g.z0*d/g.d0))/g.z0;if(g.mv>10)$('#nbPage').style.transform=`scale(${g.s})`},{passive:false});
+  const fin=()=>{if(!g)return;const G=g;g=null;const pe=$('#nbPage');pe.style.transform='';
+    if(G.mv<10&&Date.now()-G.t<350){if(NB.undo.length){nbUndo();toast('Geri alındı')}return}
+    if(Math.abs(G.s-1)<.03)return;const px=(G.mx-G.r.left)/NB.k,py=(G.my-G.r.top)/NB.k;NB.zoom=Math.round(G.z0*G.s*100)/100;nbLayout();
+    const r2=pe.getBoundingClientRect();w.scrollLeft+=r2.left+px*NB.k-G.mx;$('#modal').scrollTop+=r2.top+py*NB.k-G.my};
+  w.addEventListener('touchend',fin);w.addEventListener('touchcancel',()=>{g=null;$('#nbPage').style.transform=''})}
 function nbErase(pt){const r=16,d=NB.data,hit=d.s.filter(s=>{if(NB.hlOnly&&s.t!=='h')return false;for(let i=0;i<s.p.length;i+=3){const dx=s.p[i]-pt[0],dy=s.p[i+1]-pt[1];if(dx*dx+dy*dy<(r+s.w/2)**2)return true}
     if(s.sh)for(let i=3;i<s.p.length;i+=3){const ax=s.p[i-3],ay=s.p[i-2],bx=s.p[i],by=s.p[i+1],L=(bx-ax)**2+(by-ay)**2||1,t=Math.max(0,Math.min(1,((pt[0]-ax)*(bx-ax)+(pt[1]-ay)*(by-ay))/L));if(Math.hypot(ax+t*(bx-ax)-pt[0],ay+t*(by-ay)-pt[1])<r+s.w/2)return true}return false});
   if(hit.length){d.s=d.s.filter(s=>!hit.includes(s));NB.erasedAny=true;nbRebuild()}}
@@ -1453,7 +1529,7 @@ function nbPaste(){if(!NBCLIP)return;const c=JSON.parse(NBCLIP);nbSnap();c.s.for
 
 /* sayfa küçük resimleri */
 async function nbThumbs(){const T=$('#nbThumbs');if(!T.hidden){T.hidden=true;$('#nbWrap').hidden=false;nbLayout();return}if(NB.editing)NB.editing.blur();nbClearSel();
-  $('#nbWrap').hidden=true;T.hidden=false;const nb=NB.nb;T.innerHTML=`<div class="row" style="align-items:center;max-width:1000px;margin:0 auto 12px"><h2 style="margin:0">Sayfalar</h2><div class="fit"><button class="pri" id="thDone">Bitti</button></div></div><div class="thGrid">${nb.pages.map((p,i)=>`<div class="th${i===NB.idx?' on':''}" data-ti="${i}"><div class="thImg" id="th_${i}"></div><div class="thBar"><b>${i+1}</b><button data-tm="-1" aria-label="Öne al"${i===0?' disabled':''}>↑</button><button data-tm="1" aria-label="Arkaya al"${i===nb.pages.length-1?' disabled':''}>↓</button><button data-td aria-label="Çoğalt">⧉</button><button data-tx aria-label="Sil"${nb.pages.length<2?' disabled':''}>🗑</button></div></div>`).join('')}</div>`;
+  $('#nbWrap').hidden=true;T.hidden=false;const nb=NB.nb;T.innerHTML=`<div class="row" style="align-items:center;max-width:1000px;margin:0 auto 12px"><h2 style="margin:0">Sayfalar</h2><div class="fit"><button class="pri" id="thDone">Bitti</button></div></div><div class="thGrid">${nb.pages.map((p,i)=>`<div class="th${i===NB.idx?' on':''}" data-ti="${i}"><div class="thImg" id="th_${i}"></div><div class="thBar"><b>${i+1}</b><button data-tm="-1" aria-label="Öne al"${i===0?' disabled':''}><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg></button><button data-tm="1" aria-label="Arkaya al"${i===nb.pages.length-1?' disabled':''}><svg class="ic" aria-hidden="true"><use href="#i-down"/></svg></button><button data-td aria-label="Çoğalt"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button data-tx aria-label="Sil"${nb.pages.length<2?' disabled':''}><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg></button></div></div>`).join('')}</div>`;
   $('#thDone').onclick=()=>nbThumbs();
   T.querySelector('.thGrid').onclick=async e=>{const card=e.target.closest('[data-ti]');if(!card)return;const i=+card.dataset.ti,b=e.target.closest('button');
     if(!b){T.hidden=true;$('#nbWrap').hidden=false;nbGo(i);return}
@@ -1466,17 +1542,17 @@ async function nbThumbs(){const T=$('#nbThumbs');if(!T.hidden){T.hidden=true;$('
 /* menüler: hoca, diğer, dışa aktarma */
 function nbMenu(kind){const m=$('#nbMenu');if(!m.hidden&&m.dataset.k===kind){m.hidden=true;return}m.dataset.k=kind;m.hidden=false;
   m.innerHTML=kind==='ai'?`<div class="acts"><button data-nb="ocr">Yazıya çevir</button><button data-nb="check">Hoca kontrol etsin</button><button data-nb="solve">Bu sayfadaki soruyu çöz</button><button data-nb="cards">Bu sayfadan kart çıkar</button><button data-nb="explain">Bu sayfayı anlat</button></div>`
-   :`<div class="acts"><label style="display:flex;gap:8px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" class="chk" id="nbPO"${NB.penOnly?' checked':''}> Sadece kalemle yaz (parmakla kaydır)</label></div><div class="sp"></div>
+   :`<div class="acts"><label style="display:flex;gap:8px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" class="chk" id="nbPO"${NB.penOnly?'':' checked'}> Parmakla da yaz <span class="note" style="margin:0">(kapalıyken parmak sadece kaydırır)</span></label></div><div class="sp"></div>
      <div class="row"><div><label for="nbPaper">Bu sayfanın türü</label><select id="nbPaper"${nbPg().bg?' disabled':''}>${Object.entries(PAPERS).map(([k,v])=>`<option value="${k}"${(nbPg().paper||NB.nb.paper)===k?' selected':''}>${v}</option>`).join('')}</select></div><div><label for="nbTitleIn">Defterin adı</label><input id="nbTitleIn" value="${esc(NB.nb.title)}"></div></div><div class="sp"></div>
-     <div class="acts"><button data-nb="fav">${NB.nb.fav?'★ Favorilerden çıkar':'☆ Favorilere ekle'}</button><button data-nb="png">Sayfayı görsel olarak indir</button><button data-nb="pdf">Defteri PDF olarak indir</button><button data-nb="clear">Sayfayı temizle</button></div>`;
+     <div class="acts"><button data-nb="fav">${NB.nb.fav?'Favorilerden çıkar':'Favorilere ekle'}</button><button data-nb="png">Sayfayı görsel olarak indir</button><button data-nb="pdf">Defteri PDF olarak indir</button><button data-nb="clear">Sayfayı temizle</button></div>`;
   m.onclick=async e=>{const b=e.target.closest('[data-nb]');if(!b)return;const a=b.dataset.nb;m.hidden=true;
     if(a==='clear'){if(!NB.data.s.length&&!NB.data.o.length)return;nbSnap();NB.data.s=[];NB.data.o=[];nbClearSel();nbCommit();toast('Temizlendi (geri alabilirsin)')}
     if(a==='fav'){NB.nb.fav=!NB.nb.fav;save();toast(NB.nb.fav?'Favorilere eklendi ★':'Favorilerden çıkarıldı')}
     if(a==='png')nbExport(false);if(a==='pdf')nbExport(true);
     if(['ocr','check','solve','cards','explain'].includes(a))nbAi(a)};
-  if($('#nbPO'))$('#nbPO').onchange=e=>{NB.penOnly=S.settings.penOnly=e.target.checked;save();nbBarDraw()};
+  if($('#nbPO'))$('#nbPO').onchange=e=>{S.settings.fingerDraw=e.target.checked;NB.penOnly=!e.target.checked;save();nbBarDraw()};
   if($('#nbPaper'))$('#nbPaper').onchange=e=>{nbPg().paper=e.target.value;save();nbLayout()};
-  if($('#nbTitleIn'))$('#nbTitleIn').onchange=e=>{NB.nb.title=e.target.value.trim()||NB.nb.title;save();$('.mhead h3').textContent=NB.nb.title}}
+  if($('#nbTitleIn'))$('#nbTitleIn').onchange=e=>{NB.nb.title=e.target.value.trim()||NB.nb.title;save();$('.mhead h3').textContent=NB.nb.title;$('#nbTitle').textContent=NB.nb.title}}
 async function nbExport(all){let dl=null;try{dl=window.claude&&await claude.use('downloads')}catch(e){}if(!dl&&LOCAL)dl={save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(data);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000)}};if(!dl){toast('İndirme bu görünümde kullanılamıyor');return}
   const nb=NB.nb,safe=nb.title.replace(/[^\p{L}\p{N} _-]/gu,'').trim()||'defter';
   try{if(!all){const c=await renderPage(nb,nbPg(),1654),blob=await new Promise(r=>c.toBlob(r,'image/png'));await dl.save({filename:`${safe} - s${NB.idx+1}.png`,data:blob});return}
@@ -1500,8 +1576,8 @@ async function nbAi(a){if(!aiOn()){toast(aiErr(LOCAL?{message:'Yapay zeka için 
   catch(e){out.innerHTML='<p class="note">'+esc(e&&e.code?aiErr(e):'Hoca sayfayı okuyamadı, tekrar dene')+'</p>'}}
 
 /* ---------- ARAÇ ŞERİDİ ---------- */
-const toolsStrip=(cid,set)=>{const mk=S.mistakes.filter(m=>!m.done&&(!cid||cid==='@'||m.course===cid)).length;const T={solve:['📷','Soru çöz','#2340c8'],nb:['✍️','Yeni defter','#0f9d76'],oral:['🎤','Sözlü prova','#e0457b'],hw:['📝','Ödev rehberi','#f08c00'],mist:['📕',`Hata defteri${mk?' ('+mk+')':''}`,'#7b4dd8']};
-  return`<div class="tools">${set.map(k=>`<button class="tool" data-tl="${k}|${esc(cid)}" style="--tc:${T[k][2]}"><span>${T[k][0]}</span>${T[k][1]}</button>`).join('')}</div>`};
+const toolsStrip=(cid,set)=>{const mk=S.mistakes.filter(m=>!m.done&&(!cid||cid==='@'||m.course===cid)).length;const T={solve:['i-cam','Soru çöz','#2340c8'],nb:['i-pen','Yeni defter','#0f9d76'],oral:['i-mic','Sözlü prova','#e0457b'],hw:['i-hw','Ödev rehberi','#f08c00'],mist:['i-mist',`Hata defteri${mk?' ('+mk+')':''}`,'#7b4dd8']};
+  return`<div class="tools">${set.map(k=>`<button class="tool" data-tl="${k}|${esc(cid)}" style="--tc:${T[k][2]}"><svg class="ic" aria-hidden="true"><use href="#${T[k][0]}"/></svg>${T[k][1]}</button>`).join('')}</div>`};
 
 /* ---------- THK DERSLERİ (öğrenci bilgi sisteminden, 2026-2027 Güz) ---------- */
 const THK=[['ATA 103','Atatürk İlkeleri ve İnkılap Tarihi I','','#c0392b'],['CENG 115','Bilgisayar Programlama I','','#0b8fb3',{n:'Kısa sınav',w:0}],['MAN 133','Mikro Ekonomi','','#f08c00',{n:'Uygulama',w:0}],['MAN 171','İşletme Yönetiminin Temelleri','','#7b4dd8'],['MAT 141','Matematik I','','#2340c8'],['TUR 105','Türk Dili I','','#0f9d76']];
@@ -1599,6 +1675,13 @@ function renderAll(){applyLook();renderHero();renderAkad();renderLocal();if(T.co
   const cc=$('#chatCourse').value;$('#chatCourse').innerHTML=courseOpts(cc,'Genel (tüm dersler)');
   renderTimer();renderToday();renderFolders();renderCal();renderNotebooks();$('#hocaTools').innerHTML=toolsStrip('@',['solve','oral','hw','mist']);$('#todayTools').innerHTML=toolsStrip('',['solve','nb','mist']);if(cur&&!$('#v-ders').hidden)renderCourse();if(!$('#v-hoca').hidden)renderChat()}
 window.addEventListener('hashchange',route);
+/* başka sekmede yapılan değişikliği al: eski sekme yeni verinin üstüne yazmasın */
+window.addEventListener('storage',e=>{try{
+  if(e.key===KEY&&e.newValue){const r=JSON.parse(e.newValue);if(r&&r.courses&&(r.t||0)>(S.t||0)){S=r;norm();if(NB&&!S.notebooks.some(n=>n.id===NB.nb.id))closeModal();else{if(NB)NB.nb=S.notebooks.find(n=>n.id===NB.nb.id);renderAll()}}}
+  else if(e.key&&e.key.startsWith('cm-pg-')&&e.newValue){const id=e.key.slice(6),r=JSON.parse(e.newValue);if(PGD[id]&&(r.t||0)>(PGD[id].t||0)){Object.assign(PGD[id],r);if(NB&&nbPg().id===id)nbCommitView()}}}catch(er){}});
+function nbCommitView(){if(!NB)return;nbRebuild();nbObjs();nbSelDraw()}
+const flush=()=>{try{if(NB&&NB.editing){const o=NB.data.o.find(x=>x.id===NB.editing.dataset.oid);if(o)o.text=NB.editing.innerText}if(NB)savePage(nbPg().id);localStorage.setItem(KEY,JSON.stringify(S));if(LOCAL)IDB.put('state',JSON.parse(JSON.stringify(S))).catch(()=>{})}catch(e){}};
+window.addEventListener('pagehide',flush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush()});
 $('#nbQ').oninput=e=>{NBF.q=e.target.value;renderNotebooks()};
 window.__cm={get NB(){return NB},get TU(){return TU},get S(){return S}};
 thkMigrate();thkMigrate2();renderAll();route();
