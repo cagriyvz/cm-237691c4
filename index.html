@@ -652,6 +652,15 @@ $('#loadBk').onclick=()=>{try{const r=JSON.parse($('#bk').value);if(!r.courses)t
 let cur=null;
 const isPdf=f=>/pdf/.test(f.type)||/\.pdf$/i.test(f.name),isImg=f=>/^image\//.test(f.type),isTxt=f=>/^text\/|json|csv|markdown/.test(f.type)||/\.(txt|md|csv)$/i.test(f.name);
 const furl=f=>U(f.url)||('/_blob/'+f.asset);
+const MAXF=LOCAL?1024*1048576:20*1048576,MAXT=LOCAL?'1 GB':'20 MB';
+/* PDF'i parça parça oku: büyük kitapta sadece açılan sayfaların verisi yüklenir */
+const PDFDOC={};let pdfRead=0;
+function pdfOpen(f){if(PDFDOC[f.id])return PDFDOC[f.id];const u=String(f.url||''),id=u.startsWith('idb:')?u.slice(4):null;
+  const p=(async()=>{await ensurePdf();if(id){const blob=await IDB.get('blob_'+id);if(blob&&blob.size){const T=new pdfjsLib.PDFDataRangeTransport(blob.size,null);
+      T.requestDataRange=(b,e)=>{blob.slice(b,e).arrayBuffer().then(buf=>{pdfRead+=buf.byteLength;T.onDataRange(b,new Uint8Array(buf))}).catch(()=>{})};
+      return pdfjsLib.getDocument({range:T,length:blob.size,rangeChunkSize:65536,disableAutoFetch:true,disableStream:true}).promise}}
+    return pdfjsLib.getDocument({url:furl(f),disableAutoFetch:true}).promise})();
+  PDFDOC[f.id]=p;p.catch(()=>{PDFDOC[f.id]=null});return p}
 const kb=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';
 const fileRow=(f,c)=>`<li class="item click" data-open="${esc(f.id)}"><svg class="ic" style="color:${esc(c.color)}"><use href="#i-file"/></svg><div class="main"><div class="ttl">${esc(f.name)}</div><div class="meta"><span>${f.scan?(f.scanPages||[]).length+' taranmış sayfa':kb(f.size||0)}</span>${!f.scan&&f.pages?`<span>${f.pages} sayfa</span>`:''}${f.last>1?`<span>Kaldığın yer: s. ${f.last}</span>`:''}${f.past?'<span class="badge exam">Çıkmış sınav</span>':''}</div></div>${f.book?'':`<button class="x" data-fpast="${esc(f.id)}" aria-label="Çıkmış sınav olarak işaretle" title="Çıkmış sınav">${f.past?'★':'☆'}</button>`}<button class="x" data-fdel="${esc(f.id)}" aria-label="Sil">×</button></li>`;
 function renderCourse(){const c=course(cur);const el=$('#v-ders');if(!c){el.innerHTML='<div class="empty">Bu ders bulunamadı. <a href="#dersler">Derslere dön</a></div>';return}
@@ -662,7 +671,7 @@ function renderCourse(){const c=course(cur);const el=$('#v-ders');if(!c){el.inne
     <div class="fit acts"><button class="pri" data-askc="${id}">Hocaya sor</button><button data-exam="${id}">Deneme sınavı</button><button data-map="${id}">Konu haritası</button><button data-sheet="${id}">Formül kağıdı</button></div></div><div class="sp"></div>${toolsStrip(c.id,['solve','oral','hw','mist','nb'])}<div class="sp"></div>
   <div class="grid2"><div class="stack">
     <div class="panel"><h2>Sunumlar ve dosyalar</h2>
-      <label class="drop" id="drop">PDF sunum, fotoğraf ya da metin dosyası seç veya buraya sürükle<input type="file" id="fileIn" multiple accept=".pdf,image/*,.txt,.md,.csv"><div class="note" style="margin-top:6px">PowerPoint ise önce “PDF olarak kaydet”, sonra yükle. En fazla 20 MB.</div></label>
+      <label class="drop" id="drop">PDF sunum, fotoğraf ya da metin dosyası seç veya buraya sürükle<input type="file" id="fileIn" multiple accept=".pdf,image/*,.txt,.md,.csv"><div class="note" style="margin-top:6px">PowerPoint ise önce “PDF olarak kaydet”, sonra yükle. En fazla ${MAXT}.</div></label>
       <div class="acts" style="margin-top:10px">${CAP.mcp?`<button data-drive="${id}">Drive’dan ekle</button>`:''}${all.some(f=>f.past)?`<button class="hl" data-past="${id}">Çıkmış soruları analiz et</button>`:''}</div>
       <ul class="list">${files.map(f=>fileRow(f,c)).join('')||'<li class="empty">Henüz dosya yok</li>'}</ul>
       <p class="note">Eski vize/final PDF’lerini ☆ ile “çıkmış sınav” olarak işaretle; hoca analiz edip benzer sorular hazırlar.</p></div>
@@ -700,8 +709,9 @@ function renderCourse(){const c=course(cur);const el=$('#v-ders');if(!c){el.inne
   $('#genGo').onclick=()=>{const x=$('#genX').value.trim();if(!x){toast('Bir konu ya da metin yaz');return}genCards(c.id,$('#genT').value,x,+$('#genN').value,$('#genGo'))}}
 async function upload(cid,list,book){
   if(!CAP.assets){toast('Dosya yüklemek için sayfayı Claude uygulamasında aç');return}
-  for(const f of[...list]){if(/\.(pptx?|docx?|key|epub)$/i.test(f.name)){toast(f.name+': önce PDF olarak kaydedip yükle');continue}if(f.size>20*1048576){toast(f.name+' 20 MB’tan büyük. Büyük kitapları bölümlere ayırıp yükle.');continue}
-    toast(f.name+' yükleniyor…');
+  for(const f of[...list]){if(/\.(pptx?|docx?|key|epub)$/i.test(f.name)){toast(f.name+': önce PDF olarak kaydedip yükle');continue}if(f.size>MAXF){toast(f.name+' '+MAXT+'’tan büyük. Kitabı bölümlere ayırıp yükle.');continue}
+    if(LOCAL&&navigator.storage&&navigator.storage.estimate){try{const q=await navigator.storage.estimate();if(q.quota&&q.quota-q.usage<f.size*1.05){toast(f.name+': cihazda yer yetmiyor ('+kb(Math.max(0,q.quota-q.usage))+' boş). iPad’de yer aç, uygulamayı ana ekrandan kullan.');continue}}catch(_){}}
+    toast(f.name+' yükleniyor…'+(f.size>50*1048576?' Büyük dosya, biraz sürebilir.':''));
     try{const r=await CAP.assets.upload(f);S.files.push({id:uid(),course:cid,name:f.name,asset:r.id,url:r.url,type:r.contentType||f.type,size:r.sizeBytes||f.size,added:today(),book:!!book});save();renderAll();toast(f.name+' eklendi ✓')}
     catch(e){toast('Yüklenemedi: '+((e&&e.message)||f.name))}}}
 
@@ -714,7 +724,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classLi
 let V={file:null,pdf:null,page:1,pages:1,text:'',expl:{},lecture:0};
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
 let pdfReady=null;
-function ensurePdf(){return pdfReady=pdfReady||(async()=>{const b='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';await loadScript(b+'pdf.worker.min.js');await loadScript(b+'pdf.min.js');window.pdfjsLib.GlobalWorkerOptions.workerSrc=b+'pdf.worker.min.js'})()}
+/* pdf.js ayrı iş parçacığında çalışsın (büyük kitapta ekran donmasın); olmazsa eski yönteme dön */
+function ensurePdf(){return pdfReady=pdfReady||(async()=>{const b='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+  if(LOCAL){try{const r=await fetch(b+'pdf.worker.min.js');if(!r.ok)throw 0;const u=URL.createObjectURL(new Blob([await r.text()],{type:'text/javascript'}));const w=new Worker(u);w.terminate();await loadScript(b+'pdf.min.js');window.pdfjsLib.GlobalWorkerOptions.workerSrc=u;return}catch(e){}}
+  await loadScript(b+'pdf.worker.min.js');await loadScript(b+'pdf.min.js');window.pdfjsLib.GlobalWorkerOptions.workerSrc=b+'pdf.worker.min.js'})().catch(e=>{pdfReady=null;throw e})}
 async function openFile(id){const f=S.files.find(x=>x.id===id);if(!f)return;V={file:f,pdf:null,page:1,pages:1,text:'',expl:V.expl,lecture:0};const bk=f.book||f.scan,pg=bk?'sayfayı':'slaytı';
   openModal(f.name,`<div class="grid2"><div><div class="stage" id="vStage"><div class="empty">Açılıyor…</div></div>
     <div class="pager"><button id="vPrev" aria-label="Önceki">‹</button><span id="vNum">1 / 1</span><button id="vNext" aria-label="Sonraki">›</button></div></div>
@@ -736,7 +749,7 @@ async function openFile(id){const f=S.files.find(x=>x.id===id);if(!f)return;V={f
   if($('#vAddPg'))$('#vAddPg').onclick=()=>openScan(f.course,f.id);
   if($('#vAnnot'))$('#vAnnot').onclick=()=>{const ex=S.notebooks.find(n=>n.pages[0]&&n.pages[0].bg&&n.pages[0].bg.file===f.id);if(ex)openNotebook(ex.id);else notebookFromPdf(f.id)};
   try{if(f.scan){V.pages=(f.scanPages||[]).length;if(!V.pages){$('#vStage').innerHTML='<div class="empty">Henüz sayfa yok</div>';return}await showAny(Math.min(f.last||1,V.pages))}
-    else if(isPdf(f)){await ensurePdf();V.pdf=await pdfjsLib.getDocument({url:furl(f)}).promise;V.pages=V.pdf.numPages;if(f.pages!==V.pages){f.pages=V.pages;save()}await showPage(Math.min(f.last||1,V.pages))}
+    else if(isPdf(f)){await ensurePdf();V.pdf=await pdfOpen(f);V.pages=V.pdf.numPages;if(f.pages!==V.pages){f.pages=V.pages;save()}await showPage(Math.min(f.last||1,V.pages))}
     else if(isImg(f)){$('#vStage').innerHTML=`<img src="${esc(furl(f))}" alt="${esc(f.name)}">`;V.text='';updPager()}
     else{const r=await fetch(furl(f));V.text=(await r.text()).slice(0,30000);$('#vStage').innerHTML=`<pre>${esc(V.text)}</pre>`;updPager()}}
   catch(e){$('#vStage').innerHTML='<div class="empty">Dosya açılamadı. İnternet bağlantını kontrol edip tekrar dene.</div>'}}
@@ -894,7 +907,7 @@ function startRecording(cid){const n={id:uid(),course:cid,title:'Ders kaydı –
 
 /* ---------- 3. DENEME SINAVI ---------- */
 let EX={timer:0};
-async function pdfText(f,max){await ensurePdf();const pdf=await pdfjsLib.getDocument({url:furl(f)}).promise;let all='';for(let i=1;i<=Math.min(pdf.numPages,80);i++){const p=await pdf.getPage(i),tc=await p.getTextContent();all+=`\n[${f.name} s.${i}] `+tc.items.map(x=>x.str).join(' ').replace(/\s+/g,' ');if(all.length>max)break}return all.slice(0,max)}
+async function pdfText(f,max){const pdf=await pdfOpen(f);let all='';for(let i=1;i<=Math.min(pdf.numPages,80);i++){const p=await pdf.getPage(i),tc=await p.getTextContent();all+=`\n[${f.name} s.${i}] `+tc.items.map(x=>x.str).join(' ').replace(/\s+/g,' ');if(all.length>max)break}return all.slice(0,max)}
 async function courseMaterial(cid,max=30000){let s='';for(const n of S.notes.filter(n=>n.course===cid))s+=`\n## Not: ${n.title}\n${n.body}`;s=s.slice(0,max/2);
   for(const f of S.files.filter(f=>f.course===cid&&!f.book&&!f.past&&!f.scan)){if(s.length>=max)break;try{if(isPdf(f))s+=await pdfText(f,max-s.length);else if(isTxt(f)){const r=await fetch(furl(f));s+='\n'+(await r.text()).slice(0,max-s.length)}}catch(e){}}return s.slice(0,max)}
 function openExam(cid){clearInterval(EX.timer);EX={timer:0,cid};
@@ -1074,7 +1087,7 @@ async function makeSheet(cid,btn){const o=btn.textContent;btn.disabled=true;btn.
     const t=await ask(`${SYS}\n\nDers: ${cName(cid)}\nMateryal:\n"""${mat||'(materyal yok, dersin standart müfredatını kullan)'}"""\n\nGörev: Sınavdan önce bakılacak tek sayfalık bir formül ve tanım kağıdı hazırla. Bölümler: Tanımlar (terim: kısa tanım), Formüller ve kurallar (formül, değişkenlerin anlamı, ne zaman kullanılır), Ezberlenecek kritik bilgiler, Sık karıştırılanlar. Kısa ve yoğun ol. Materyalde olmayan bir şey eklersen yanına (ek) yaz.`,{tier:'complex'});
     saveSpecial(cid,'sheet','📄 Formül ve tanım kağıdı',t)}catch(e){toast(e&&(e.code||e.message)?aiErr(e):'Hazırlanamadı, tekrar dene')}
   if(btn.isConnected){btn.disabled=false;btn.textContent=o}}
-async function pdfImages(f,max){await ensurePdf();const pdf=await pdfjsLib.getDocument({url:furl(f)}).promise,out=[];for(let i=1;i<=Math.min(pdf.numPages,max);i++){const p=await pdf.getPage(i),v0=p.getViewport({scale:1}),vp=p.getViewport({scale:1200/v0.width}),cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;await p.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;out.push(await new Promise(r=>cv.toBlob(r,'image/jpeg',.8)))}return out}
+async function pdfImages(f,max){const pdf=await pdfOpen(f),out=[];for(let i=1;i<=Math.min(pdf.numPages,max);i++){const p=await pdf.getPage(i),v0=p.getViewport({scale:1}),vp=p.getViewport({scale:1200/v0.width}),cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;await p.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;out.push(await new Promise(r=>cv.toBlob(r,'image/jpeg',.8)))}return out}
 async function analyzePast(cid,btn){const past=S.files.filter(f=>f.course===cid&&f.past);if(!past.length)return;const o=btn.textContent;btn.disabled=true;btn.textContent='Sınavlar okunuyor…';
   try{let txt='';const imgs=[];for(const f of past){try{if(isPdf(f)){const t=await pdfText(f,20000);if(t.replace(/\[[^\]]*\]/g,'').trim().length>200)txt+=`\n### ${f.name}\n${t}`;else if(CAP.img&&imgs.length<8)imgs.push(...await pdfImages(f,8-imgs.length))}else if(isImg(f)&&CAP.img&&imgs.length<8)imgs.push(await shrink(await (await fetch(furl(f))).blob()))}catch(e){}}
     btn.textContent='Hoca analiz ediyor…';
@@ -1312,7 +1325,7 @@ function openHomework(cid){const fs=S.files.filter(f=>f.course===cid&&!f.book&&(
     <button class="pri" id="hwGo">Rehberi başlat</button></form>`);
   let up=null;$('#hwFile').onchange=e=>{up=e.target.files[0]||null;$('#hwN').textContent=up?'✓ '+up.name:''};
   $('#hwF').onsubmit=async e=>{e.preventDefault();const b=$('#hwGo');b.disabled=true;b.textContent='Ödev okunuyor…';let text=$('#hwT').value.trim(),images=[];
-    try{let f=null;if(up){if(CAP.assets&&up.size<=20*1048576){const r=await CAP.assets.upload(up);f={id:uid(),course:cid,name:up.name,asset:r.id,url:r.url,type:r.contentType||up.type,size:r.sizeBytes||up.size,added:today()};S.files.push(f);save()}else if(/^image\//.test(up.type))images.push(await shrink(up))}
+    try{let f=null;if(up){if(CAP.assets&&up.size<=MAXF){const r=await CAP.assets.upload(up);f={id:uid(),course:cid,name:up.name,asset:r.id,url:r.url,type:r.contentType||up.type,size:r.sizeBytes||up.size,added:today()};S.files.push(f);save()}else if(/^image\//.test(up.type))images.push(await shrink(up))}
       else if($('#hwSel')&&$('#hwSel').value)f=S.files.find(x=>x.id===$('#hwSel').value);
       if(f){if(isPdf(f)){text+='\n'+await pdfText(f,20000);if(text.replace(/\[[^\]]*\]/g,'').trim().length<100&&CAP.img)images.push(...await pdfImages(f,4))}else if(isImg(f))images.push(await shrink(await (await fetch(furl(f))).blob()));else if(isTxt(f))text+='\n'+(await (await fetch(furl(f))).text()).slice(0,20000)}
       if(!text.trim()&&!images.length){toast('Ödevi yükle, seç ya da yapıştır');b.disabled=false;b.textContent='Rehberi başlat';return}
@@ -1345,10 +1358,10 @@ function newNotebook(cid){openModal('Yeni defter',`<form style="max-width:560px;
   let paper='lined',color=COLORS[0],cover='plain';
   $('#nnF').onclick=e=>{const p=e.target.closest('[data-p]'),c=e.target.closest('[data-nc]'),v=e.target.closest('[data-cv]');if(p){paper=p.dataset.p;$$('[data-p]').forEach(x=>x.classList.toggle('on',x===p))}if(v){cover=v.dataset.cv;$$('[data-cv]').forEach(x=>x.classList.toggle('on',x===v))}if(c){color=c.dataset.nc;$$('[data-nc]').forEach(x=>x.classList.toggle('on',x===c));$$('[data-cv] .nbCover').forEach(x=>x.style.setProperty('--c',color))}};
   $('#nnF').onsubmit=e=>{e.preventDefault();const nb={id:uid(),course:$('#nnC').value,title:$('#nnT').value.trim()||'Defter',color,cover,paper,pages:[{id:uid()}],upd:Date.now()};S.notebooks.push(nb);save();openNotebook(nb.id)}}
-async function notebookFromPdf(fid){const f=S.files.find(x=>x.id===fid);if(!f)return;toast('Sunum deftere çevriliyor…');
-  try{await ensurePdf();const pdf=await pdfjsLib.getDocument({url:furl(f)}).promise,n=Math.min(pdf.numPages,150);
-    const nb={id:uid(),course:f.course,title:f.name.replace(/\.pdf$/i,'')+' – notlar',color:course(f.course)?.color||COLORS[0],cover:'plain',paper:'blank',pages:[...Array(n)].map((_,i)=>({id:uid(),bg:{file:f.id,page:i+1}})),upd:Date.now()};
-    S.notebooks.push(nb);save();openNotebook(nb.id);if(pdf.numPages>n)toast('İlk 150 sayfa eklendi')}catch(e){toast('PDF açılamadı')}}
+async function notebookFromPdf(fid){const f=S.files.find(x=>x.id===fid);if(!f)return;toast((f.book?'Kitap':'Sunum')+' deftere çevriliyor…'+(f.size>50*1048576?' Büyük dosya, biraz sürebilir.':''));
+  try{const pdf=await pdfOpen(f),n=Math.min(pdf.numPages,2000),v1=(await pdf.getPage(1)).getViewport({scale:1}),h1=Math.round(PW*v1.height/v1.width);
+    const nb={id:uid(),course:f.course,title:f.name.replace(/\.pdf$/i,'')+' – notlar',color:course(f.course)?.color||COLORS[0],cover:'plain',paper:'blank',pages:[...Array(n)].map((_,i)=>({id:uid(),h:h1,bg:{file:f.id,page:i+1}})),upd:Date.now()};
+    S.notebooks.push(nb);save();openNotebook(nb.id);if(pdf.numPages>n)toast('İlk 2000 sayfa eklendi')}catch(e){toast('PDF açılamadı')}}
 function renderNotebooks(){const el=$('#nbList');if(!el)return;
   $('#nbFilt').innerHTML=[['all','Tümü'],['fav','★ Favoriler'],...S.courses.filter(c=>S.notebooks.some(n=>n.course===c.id)).map(c=>[c.id,c.name])].map(([k,v])=>`<button class="chip${NBF.f===k?' on':''}" data-nbf="${esc(k)}">${esc(v)}</button>`).join('');
   const q=normT(NBF.q),hits={};let list=S.notebooks.filter(n=>NBF.f==='all'||(NBF.f==='fav'?n.fav:n.course===NBF.f));
@@ -1375,7 +1388,7 @@ function nbStroke(x,s){const p=s.p,n=p.length/3;if(!n)return;x.save();x.strokeSt
     if(n>1){x.lineWidth=wf(n-1);x.beginPath();x.moveTo((p[n*3-6]+p[n*3-3])/2,(p[n*3-5]+p[n*3-2])/2);x.lineTo(p[n*3-3],p[n*3-2]);x.stroke()}}x.restore()}
 function textLines(x,o){x.font=`${o.fs}px Manrope,system-ui,sans-serif`;const out=[];for(const para of String(o.text||'').split('\n')){let line='';for(const w of para.split(' ')){const t=line?line+' '+w:w;if(x.measureText(t).width>o.w&&line){out.push(line);line=w}else line=t}out.push(line)}return out}
 async function drawObjs(x,o){for(const ob of o||[]){if(ob.type==='img'){try{x.drawImage(await loadImg(ob.url),ob.x,ob.y,ob.w,ob.h)}catch(e){}}else if(ob.type==='text'){x.save();x.fillStyle=ob.c||'#141a2e';x.textBaseline='top';textLines(x,ob).forEach((l,i)=>x.fillText(l,ob.x+4,ob.y+4+i*ob.fs*1.3));x.restore()}}}
-async function pdfBg(pg,width){const f=S.files.find(x=>x.id===pg.bg.file);if(!f)throw 0;await ensurePdf();PDFC[f.id]=PDFC[f.id]||pdfjsLib.getDocument({url:furl(f)}).promise;const pdf=await PDFC[f.id],p=await pdf.getPage(pg.bg.page),v0=p.getViewport({scale:1});
+async function pdfBg(pg,width){const f=S.files.find(x=>x.id===pg.bg.file);if(!f)throw 0;const pdf=await pdfOpen(f),p=await pdf.getPage(pg.bg.page),v0=p.getViewport({scale:1});
   pg.h=Math.round(PW*v0.height/v0.width);const vp=p.getViewport({scale:width/v0.width}),cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;await p.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;return cv}
 async function renderPage(nb,pg,W){const d=await loadPage(pg.id);let bg=null;if(pg.bg){try{bg=await pdfBg(pg,Math.max(W,400))}catch(e){}}const H=pg.h||PH,c=document.createElement('canvas');c.width=W;c.height=Math.round(W*H/PW);
   const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);if(bg)x.drawImage(bg,0,0,c.width,c.height);x.save();x.scale(W/PW,W/PW);if(!bg)drawPaper(x,pg.paper||nb.paper,H);await drawObjs(x,d.o);for(const s of d.s)nbStroke(x,s);x.restore();return c}
@@ -1439,7 +1452,7 @@ async function nbSnapSlot(el,force){if(!NB||el.classList.contains('live'))return
     if(pg.h&&Math.abs(el.offsetHeight-NB.w*pg.h/PW)>2)nbKeep(nbSizeSlots)}catch(e){}}
 function nbFreeSlot(el,keepW){el.querySelectorAll('.nbSnap').forEach(c=>{c.width=0;c.height=0;c.remove()});if(!keepW)el._snapW=0}
 function nbNum(i){if(!$('#nbNum'))return;const n=NB.nb.pages.length;$('#nbNum').textContent=(i+1)+' / '+n;$('#nbPrev').disabled=i<=0;$('#nbNext').disabled=i>=n-1}
-function nbVisIdx(){const y=innerHeight*.45;let best=NB.vis,bd=1e9;for(const el of $$('#nbStack .nbSlot')){const r=el.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)continue;const d=r.top<=y&&r.bottom>=y?0:Math.min(Math.abs(r.top-y),Math.abs(r.bottom-y));if(d<bd){bd=d;best=+el.dataset.si}}return best}
+function nbVisIdx(){const els=$$('#nbStack .nbSlot'),y=innerHeight*.45;if(!els.length)return 0;let lo=0,hi=els.length-1;while(lo<hi){const m=(lo+hi)>>1;if(els[m].getBoundingClientRect().bottom<y)lo=m+1;else hi=m}return lo}
 const nbBusy=()=>!!(NB.cur||NB.lasso||NB.lasCur||NB.editing||NB.fwd||NB.pinch||NB.dragging);
 function nbOnScroll(){if(!NB||$('#nbWrap').hidden)return;cancelAnimationFrame(NB.sr);NB.sr=requestAnimationFrame(()=>{if(!NB)return;const i=nbVisIdx();if(i!==NB.vis){NB.vis=i;nbNum(i)}
   clearTimeout(NB.st);NB.st=setTimeout(()=>{if(!NB)return;if(!nbBusy()&&NB.vis!==NB.idx)nbActivate(NB.vis);nbCheckEnd()},140)})}
@@ -1745,7 +1758,7 @@ function nbCommitView(){if(!NB)return;nbRebuild();nbObjs();nbSelDraw()}
 const flush=()=>{try{if(NB&&NB.editing){const o=NB.data.o.find(x=>x.id===NB.editing.dataset.oid);if(o)o.text=NB.editing.innerText}if(NB)savePage(nbPg().id);localStorage.setItem(KEY,JSON.stringify(S));if(LOCAL)IDB.put('state',JSON.parse(JSON.stringify(S))).catch(()=>{})}catch(e){}};
 window.addEventListener('pagehide',flush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush()});
 $('#nbQ').oninput=e=>{NBF.q=e.target.value;renderNotebooks()};
-window.__cm={get NB(){return NB},get TU(){return TU},get S(){return S}};
+window.__cm={get pdfRead(){return pdfRead},get NB(){return NB},get TU(){return TU},get S(){return S}};
 thkMigrate();thkMigrate2();renderAll();route();
 }
 </script>
